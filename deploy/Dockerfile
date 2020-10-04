@@ -11,7 +11,9 @@ LABEL org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.build-date=$BUILD_DATE
 
 WORKDIR /app
-COPY . .
+COPY src/ .
+COPY entrypoint.sh .
+COPY uwsqi.ini .
 
 ENV DJANGO_SETTINGS_MODULE proj.settings.build
 RUN python manage.py makemessages
