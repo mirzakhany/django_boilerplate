@@ -1,0 +1,21 @@
+[flake8]
+exclude =
+    */migrations/*
+    ./django_boilerplate/settings/*
+    */mocks/*
+    ./deploy/*
+max-line-length = 88
+max-complexity = 10
+
+ignore =
+    W503  # line break before binary operator
+    E203  # whitespace before ':'
+
+    # flake8-string-format
+    P101  # format string does contain unindexed parameters
+    P103  # other string does contain unindexed parameters
+
+    # flake8-django
+    DJ01  # Using null=True is not recommended for some of the Django ORM fields
+    DJ04  # Using dashes in url names is discouraged, use underscores instead
+    DJ08  # __str__ method should be present in all db models
