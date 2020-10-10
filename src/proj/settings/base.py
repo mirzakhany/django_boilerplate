@@ -17,6 +17,9 @@ from django.utils.translation import ugettext_lazy as _
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+def ENV_SETTING(key, default):
+    import os
+    return os.environ.get(key, default)
 
 if os.environ.get("ENABLE_SENTRY") == "True":
 
@@ -86,8 +89,7 @@ ROOT_URLCONF = 'proj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -95,10 +97,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
-            "loaders": [
-                "django.template.loaders.filesystem.Loader",
-                "django.template.loaders.app_directories.Loader",
             ],
         },
     },

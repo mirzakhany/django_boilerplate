@@ -44,3 +44,8 @@ celerybeat-schedule
 .tool-versions
 
 keys
+
+# Database stuff
+*.sqlite3
+migrations/
+db.sqlite3
