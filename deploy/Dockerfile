@@ -12,10 +12,12 @@ LABEL org.label-schema.vcs-ref=$VCS_REF \
 
 WORKDIR /app
 COPY src/ .
+COPY requirements.txt .
 COPY entrypoint.sh .
 COPY uwsqi.ini .
 
 ENV DJANGO_SETTINGS_MODULE proj.settings.build
+RUN pip install -r requirements.txt
 RUN python manage.py makemessages
 RUN python manage.py compilemessages
 RUN python manage.py collectstatic --noinput --clear
