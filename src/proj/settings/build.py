@@ -1,19 +1,19 @@
-from .base import *
+from .base import *  # noqa: F403
 
 BASE_DIR = "/app"
 SECRET_KEY = "this-is-for-build-only"
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': "postgres",
-        'USER': "postgres",
-        'PASSWORD': "postgres",
-        'HOST': "postgres",
-        'PORT': "5432",
-        'OPTIONS': {
-            'connect_timeout': 3,
-        }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": "postgres",
+        "PASSWORD": "postgres",
+        "HOST": "postgres",
+        "PORT": "5432",
+        "OPTIONS": {
+            "connect_timeout": 3,
+        },
     }
 }
 

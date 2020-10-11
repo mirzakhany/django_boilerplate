@@ -1,0 +1,9 @@
+tox
+pytest
+pytest-cov
+pytest-django
+django_coverage_plugin
+django-discover-runner==1.0
+isort
+black
+flake8

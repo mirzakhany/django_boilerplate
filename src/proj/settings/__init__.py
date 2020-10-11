@@ -3,6 +3,6 @@
 # repository.
 
 try:
-    from .local import *
+    from .local import *  # noqa: F401, F403
 except ImportError:
-    from .prod import *
+    from .prod import *  # noqa: F401, F403
