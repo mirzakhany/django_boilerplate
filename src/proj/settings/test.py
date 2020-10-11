@@ -1,13 +1,13 @@
 # Settings file optimized for test running. Sets up in-memory database,
 # Nose test runner and disables South for the tests
 
-from .base import *
+from .base import *  # noqa: F401, F403
 
 # Use in-memory SQLIte3 database for faster tests
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": ":memory:",
     }
 }
 
@@ -17,8 +17,7 @@ SKIP_SOUTH_TESTS = True
 
 # Disable cache
 CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    "default": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
     }
 }
-

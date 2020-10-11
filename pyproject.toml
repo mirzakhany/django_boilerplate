@@ -15,7 +15,7 @@ django-constance = {version = "^2.6.0", extras = ["database"]}
 
 [tool.black]
 line-length = 88
-target-version = ['py37', 'py38']
+target-version = ['py38']
 include = '\.pyi?$'
 exclude = '''
 (
