@@ -13,9 +13,9 @@ this project is going to be a template for starting django projects. and will co
 
 # How to build docker images.
  
-we have two script in `deploy/scripts` directory to make build process easier in ci/cd. but we can also use them durring development.
+We have two scripts in `deploy/scripts` directory to make build process easier in ci/cd. but we can also use them during development.
 
-### first of all set required variables
+### First of all set required variables
 there is a file called values_sample.sh in `deploy/scripts`. rename this file and make sure to add it to .gitignore.
 
 this file content is: 
@@ -29,9 +29,9 @@ export BASE_IMAGE_REPO="mirzakhani/django_boilerplate_base";
 export IMAGE_REPO="mirzakhani/django_boilerplate";
 ```
 
-`DOCKER_REGISTRY` : is to set your docker register address, default address will work for dockerhub.
+`DOCKER_REGISTRY`: is to set your docker register address, default address will work for dockerhub.
 
-`DOCKER_USER` and `DOCKER_PASS` are used to login to your docker reqistery. !!! Again dont forget to put this file in .gitignore !!!
+`DOCKER_USER` and `DOCKER_PASS` are used to login to your docker registry. !!! Again don't forget to put this file in .gitignore !!!
 
 `BASE_IMAGE_REPO` and `IMAGE_REPO` are your images repositories. [but why two docker image?](#Why-two-docke-image)
 

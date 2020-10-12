@@ -9,7 +9,7 @@ echo "check docker registry for image tag: $BASE_IMAGE_REPO:$REQ_HASH"
 IMAGE=$(curl -s -u $DOCKER_USER:"$DOCKER_PASS" -X GET $BASE_URL/$BASE_IMAGE_REPO/tags/list | grep $REQ_HASH)
 
 if [ ! $IMAGE ]; then
-    echo "Base image for base not exists, now building ..."
+    echo "Base image for base does not exist, now building ..."
     docker build \
         -f $DOCKER_FILE \
         -t $BASE_IMAGE_REPO:$REQ_HASH \
