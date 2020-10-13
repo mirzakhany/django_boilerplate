@@ -9,6 +9,7 @@ django-rest-framework==0.1.0
 djangorestframework==3.12.1
 psycopg2==2.8.6
 pytz==2020.1
+python-dotenv==0.14.0
 sentry-sdk==0.18.0
 sqlparse==0.4.1
 urllib3==1.25.10
