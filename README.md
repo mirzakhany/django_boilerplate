@@ -11,14 +11,19 @@ this project is going to be a template for starting django projects. and will co
 * [ ] ?
 
 
+# Setup project
+### Load configs using `env` file
+Copy `.sample_env` file into `.env` and update the values.
+
+
 # How to build docker images.
- 
+
 We have two scripts in `deploy/scripts` directory to make build process easier in ci/cd. but we can also use them during development.
 
 ### First of all set required variables
 there is a file called values_sample.sh in `deploy/scripts`. rename this file and make sure to add it to .gitignore.
 
-this file content is: 
+this file content is:
 
 ```bash
 export DOCKER_REGISTRY="index.docker.io";
