@@ -31,6 +31,10 @@ uploads
 venv
 /media
 
+# local settings
+.local.py
+.prod.py
+
 # pycharm
 .idea/*
 
