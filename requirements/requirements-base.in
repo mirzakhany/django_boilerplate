@@ -3,11 +3,13 @@ certifi
 Django
 django-constance
 django-cors-headers
+django-environ
 django-extensions
 django-picklefield
 django-rest-framework
 djangorestframework
 psycopg2
+pip-tools
 pytz
 sentry-sdk
 sqlparse
