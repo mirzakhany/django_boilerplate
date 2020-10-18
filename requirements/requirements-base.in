@@ -1,0 +1,15 @@
+asgiref
+certifi
+Django
+django-constance
+django-cors-headers
+django-extensions
+django-picklefield
+django-rest-framework
+djangorestframework
+psycopg2
+pytz
+sentry-sdk
+sqlparse
+urllib3
+uWSGI

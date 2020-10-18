@@ -11,6 +11,6 @@ RUN \
   apt-get update && \
   apt-get install -yqq apt-transport-https gettext
 
-COPY requirements.txt ./
-RUN pip install -r requirements.txt \
+COPY requirements/requirements-base.txt ./
+RUN pip install -r requirements/requirements-base.txt \
     && pip install uwsgi
