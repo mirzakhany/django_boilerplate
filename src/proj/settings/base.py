@@ -13,30 +13,38 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 from pathlib import Path
 
+import environ
+
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+# reading .env file
+environ.Env.read_env()
+
 
 def ENV_SETTING(key, default):
-    import os
-
-    return os.environ.get(key, default)
+    return env.get_value(key, default=default)
 
 
-if os.environ.get("ENABLE_SENTRY") == "True":
+if ENV_SETTING("ENABLE_SENTRY") == "True":
 
     integrations = [DjangoIntegration()]
-    if os.environ.get("SENTRY_REDIS") == "True":
+    if ENV_SETTING("SENTRY_REDIS") == "True":
         from sentry_sdk.integrations.redis import RedisIntegration
 
         integrations.append(RedisIntegration())
-    if os.environ.get("SENTRY_CELERY") == "True":
+    if ENV_SETTING("SENTRY_CELERY") == "True":
         from sentry_sdk.integrations.celery import CeleryIntegration
 
         integrations.append(CeleryIntegration())
 
     sentry_sdk.init(
-        dsn=os.environ.get("SENTRY_DSN"),
+        dsn=ENV_SETTING("SENTRY_DSN"),
         integrations=integrations,
         send_default_pii=True,
     )
@@ -53,10 +61,10 @@ SECRET_KEY = "y#swzfnq4br$0vmcjs@yej^&qmv_tualw#(awwi=he@=!@#&8u"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
-ALLOWED_HOSTS.append(os.environ.get("POD_IP", ""))
+ALLOWED_HOSTS = ENV_SETTING("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS.append(ENV_SETTING("POD_IP", ""))
 
-GIT_COMMIT = os.environ.get("GIT_COMMIT", "")
+GIT_COMMIT = ENV_SETTING("GIT_COMMIT", "")
 
 
 # Application definition
@@ -113,10 +121,10 @@ WSGI_APPLICATION = "proj.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
-        "NAME": os.environ.get("POSTGRES_NAME", "postgres"),
-        "USER": os.environ.get("POSTGRES_USER", "postgres"),
-        "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "postgres"),
+        "HOST": ENV_SETTING("POSTGRES_HOST", "localhost"),
+        "NAME": ENV_SETTING("POSTGRES_NAME", "postgres"),
+        "USER": ENV_SETTING("POSTGRES_USER", "postgres"),
+        "PASSWORD": ENV_SETTING("POSTGRES_PASSWORD", "postgres"),
         "CONN_MAX_AGE": 0,
     }
 }
@@ -158,7 +166,7 @@ LOCALE_PATHS = (str(BASE_DIR / "locale"),)
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = os.environ.get("STATIC_URL", "/static/")
+STATIC_URL = ENV_SETTING("STATIC_URL", "/static/")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # LOGGING
@@ -197,9 +205,9 @@ REST_FRAMEWORK = {
 
 # redis configurations
 REDIS_URL = "redis://{user}:{password}@{host}:6379/0".format(
-    user=os.environ.get("REDIS_USER", ""),
-    password=os.environ.get("REDIS_PASSWORD", ""),
-    host=os.environ.get("REDIS_HOST", "0.0.0.0"),
+    user=ENV_SETTING("REDIS_USER", ""),
+    password=ENV_SETTING("REDIS_PASSWORD", ""),
+    host=ENV_SETTING("REDIS_HOST", "0.0.0.0"),
 )
 
 # cache
