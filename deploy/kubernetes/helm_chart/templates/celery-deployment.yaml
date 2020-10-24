@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "proj.fullname" . }}
+  name: {{ include "proj.taskRunnerName" . }}
   labels:
-    {{- include "proj.labels" . | nindent 4 }}
+    {{- include "proj.taskRunnerLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "proj.selectorLabels" . | nindent 6 }}
+      {{- include "proj.taskRunnerSelectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "proj.selectorLabels" . | nindent 8 }}
+        {{- include "proj.taskRunnerSelectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -22,11 +22,12 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-celery-worker
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['celery', '-A', 'proj', 'worker']
           env:
             - name: GIT_COMMIT
               value: {{ .Values.image.tag | quote }}
@@ -51,20 +52,38 @@ spec:
           envFrom:
             - configMapRef:
                 name: {{ include "proj.fullname" . }}
-          ports:
-            - name: http
-              containerPort: 8080
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /misc/healthz
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /misc/healthz
-              port: http
-            initialDelaySeconds: 20
-            timeoutSeconds: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+        - name: {{ .Chart.Name }}-celery-beat
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ['celery', '-A', 'proj', 'beat']
+          env:
+            - name: GIT_COMMIT
+              value: {{ .Values.image.tag | quote }}
+            - name: ENVIRONMENT
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.redis.secretName }}
+                  key: redis-password
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: postgresql-password
+                  name: {{ .Values.db.postgresql.dbPassSecret }}
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          envFrom:
+            - configMapRef:
+                name: {{ include "proj.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
