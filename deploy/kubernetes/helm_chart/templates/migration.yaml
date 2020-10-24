@@ -19,10 +19,16 @@ spec:
       restartPolicy: Never
       containers:
         - name: db-migrate
-          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           securityContext:
             runAsUser: 33
           env:
+            - name: GIT_COMMIT
+              value: {{ .Values.image.tag | quote }}
+            - name: ENVIRONMENT
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:

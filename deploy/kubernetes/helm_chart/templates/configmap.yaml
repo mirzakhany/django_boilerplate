@@ -6,7 +6,7 @@ data:
   # Backend Settings
   PYTHONUNBUFFERED: "0"
   ALLOWED_HOSTS: {{ .Values.application.allowedHosts | quote }}
-  SECRET_KEY: "@+Ebgrtp44e#vjn0uxk560dy6n5+gn87-+r8*mkl-m&$rg&rta"
+  SECRET_KEY: "<your-secret-key>"
   DJANGO_SETTINGS_MODULE: {{ .Values.application.djangoSetting | quote }}
   STATIC_URL: {{ .Values.application.staticURL | quote }}
   FORCE_SCRIPT_NAME: {{ .Values.application.basePath | quote }}
