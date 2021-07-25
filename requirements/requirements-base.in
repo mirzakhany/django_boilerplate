@@ -15,3 +15,5 @@ sentry-sdk
 sqlparse
 urllib3
 uWSGI
+celery
+django-celery-beat
