@@ -81,6 +81,8 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_extensions",
     "rest_framework",
+    "django_celery_beat",
+    "apps.tasks_management",
 ]
 
 MIDDLEWARE = [
@@ -225,9 +227,14 @@ CACHES = {
 }
 
 # celery
-CELERY_TIMEZONE = "UTC"
+CELERY_TIMEZONE = TIME_ZONE
 CELERY_BROKER_URL = REDIS_URL
 CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+
+TASKS_MANAGEMENT_QUEUE = 'tasks_management'
 
 # django constance
 CONSTANCE_BACKEND = "constance.backends.database.DatabaseBackend"
